@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -22,15 +22,15 @@ class OrderDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->editColumn('created_at', function ($data) {
-                return Carbon::parse($data->created_at)->longRelativeDiffForHumans();
+                return Carbon::parse($data->created_at)->toDateTimeLocalString();
             })
             ->editColumn('updated_at', function ($data) {
-                return Carbon::parse($data->updated_at)->longRelativeDiffForHumans();
+                return Carbon::parse($data->updated_at)->toDateTimeLocalString();
             })
-            ->addColumn('action', function ($data) use ($first_user) {
+            ->addColumn('action', function ($data) {
                 $html = '<div class="btn-group">';
-                $html .= getEditButton(route('user.edit', ['user' => $data->id]), "", "", "user-edit");
-                $html .= getDeleteButton("javascript:;", "deleteModel", "data-id=\"$data->id\"", "user-delete");
+                $html .= getEditButton(route('order.edit', ['order' => $data->id]), "", "", "order-edit");
+                $html .= getDeleteButton("javascript:;", "deleteModel", "data-id=\"$data->id\"", "order-delete");
                 $html .= '</div>';
                 return $html;
             })
@@ -40,9 +40,9 @@ class OrderDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(User $model): QueryBuilder
+    public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->with('createdBy:id,name', 'updatedBy:id,name')->newQuery();
     }
 
     /**
@@ -51,13 +51,13 @@ class OrderDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('user-table')
+            ->setTableId('order-table')
             ->addTableClass(['table-striped', 'table-nowrap', 'datatable'])
             ->lengthMenu([100, 200, 500, 1000])
             ->minifiedAjax()
-            ->searching(true)
-            ->serverSide(true)
-            ->scrollX(true)
+            ->searching()
+            ->serverSide()
+            ->scrollX()
             ->columns($this->getColumns());
     }
 
@@ -72,17 +72,37 @@ class OrderDataTable extends DataTable
                 ->searchable(false)
                 ->title('#'),
 
-            Column::make('name')
-                ->title('Name'),
+            Column::make('work_order_number')
+                ->title('Work Order Number'),
 
-            Column::make('email')
-                ->title('Email'),
+            Column::make('customer')
+                ->title('Customer'),
 
-            Column::make('phone')
-                ->title('Phone'),
+            Column::make('part_name')
+                ->title('Part Name'),
 
-            Column::make('status')
-                ->title('Status'),
+            Column::make('metal')
+                ->title('Metal'),
+
+            Column::make('size')
+                ->title('Size'),
+
+            Column::make('quantity')
+                ->title('Quantity'),
+
+            Column::make('required_weight')
+                ->title('Required Weight'),
+
+            Column::make('delivery_date')
+                ->title('Delivery Date'),
+
+            Column::make('created_by.name', 'createdBy.name')
+                ->searchable(false)
+                ->title('Created By'),
+
+            Column::make('updated_by.name', 'updatedBy.name')
+                ->searchable(false)
+                ->title('Updated By'),
 
             Column::make('created_at')
                 ->title('Created At'),
@@ -102,6 +122,6 @@ class OrderDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'User_' . date('YmdHis');
+        return 'Order_' . date('YmdHis');
     }
 }

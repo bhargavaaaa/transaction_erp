@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function () {
     /* User routes */
 
     /* Order routes */
+    Route::get('order/check-work-order-no-unique/{order?}', [OrderController::class, 'checkWorkOrderNoUnique'])->name('order.check-work-order-no-unique');
+    Route::get('order/import', [OrderController::class, 'import_orders'])->name('import.orders');
+    Route::post('order/import', [OrderController::class, 'import_orders_store'])->name('import.orders.store');
     Route::resource('order', OrderController::class)->except(['show']);
     /* Order routes */
 
