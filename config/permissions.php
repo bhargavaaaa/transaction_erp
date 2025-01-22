@@ -20,7 +20,32 @@ return [
                 'order-create' => 'Order Create',
                 'order-edit' => 'Order Edit',
                 'order-delete' => 'Order Delete'
-            ]
+            ],
+            'Cutting' => [
+                'cutting-view' => 'Cutting View',
+                'cutting-modify' => 'Cutting Modify',
+                'cutting-delete' => 'Cutting Delete'
+            ],
+            'Turning' => [
+                'turning-view' => 'Turning View',
+                'turning-modify' => 'Turning Modify',
+                'turning-delete' => 'Turning Delete'
+            ],
+            'Milling' => [
+                'milling-view' => 'Milling View',
+                'milling-modify' => 'Milling Modify',
+                'milling-delete' => 'Milling Delete'
+            ],
+            'Other' => [
+                'other-view' => 'Other View',
+                'other-modify' => 'Other Modify',
+                'other-delete' => 'Other Delete'
+            ],
+            'Dispatch' => [
+                'dispatch-view' => 'Dispatch View',
+                'dispatch-modify' => 'Dispatch Modify',
+                'dispatch-delete' => 'Dispatch Delete'
+            ],
         ]
     ]
 ];

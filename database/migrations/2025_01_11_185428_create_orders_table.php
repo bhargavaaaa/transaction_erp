@@ -50,6 +50,7 @@ return new class extends Migration
             $table->decimal('dispatch_rejected_quantity', 15)->default(0);
             $table->decimal('dispatch_net_quantity', 15)->default(0);
             $table->foreignId("dispatch_updated_by")->nullable()->constrained("users");
+            $table->boolean("status")->default(false);
             $table->foreignId("created_by")->nullable()->constrained("users");
             $table->foreignId("updated_by")->nullable()->constrained("users");
             $table->timestamps();

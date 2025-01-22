@@ -97,6 +97,13 @@
                             <span class="nav-main-link-name">Order</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->segment(1) === 'cutting' ? 'active' : '' }}"
+                           href="{{ route('cutting.index') }}">
+                            <i class="nav-main-link-icon fa fa-cut"></i>
+                            <span class="nav-main-link-name">Cutting</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- END Side Navigation -->

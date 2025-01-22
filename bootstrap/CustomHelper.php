@@ -266,7 +266,7 @@ function convertToWords($number) {
 
 function isOrderOpenToDelete($order): bool
 {
-    if (empty($order->cutting_end_date) && empty($order->turning_end_date) && empty($order->milling_end_date) && empty($order->other_end_date) && empty($order->dispatch_end_date)) {
+    if (empty($order->cutting_end_date) && empty($order->turning_end_date) && empty($order->milling_end_date) && empty($order->other_end_date) && empty($order->dispatch_end_date) && !$order->status) {
         return true;
     }
 

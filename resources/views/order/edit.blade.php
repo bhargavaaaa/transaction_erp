@@ -6,6 +6,7 @@
 
 @section('css')
     @include('layouts.includes.datepicker_styles')
+    @include('layouts.includes.sweetalert2_styles')
 @endsection
 
 @section('content')
@@ -21,10 +22,33 @@
                         </h3>
                     </div>
                     <div class="col-6 text-end">
-                        <a href="javascript:history.back()" class="btn btn-primary">
-                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                            Back
-                        </a>
+                        <div class="d-flex justify-content-end align-items-center gap-2">
+                            @if($order->status)
+                                <div class="col-auto">
+                                    <a href="javascript:;" id="finish_unfinish" data-name="unfinish" data-href="{{ route('order.make.unfinish', $order) }}" class="btn btn-danger">
+                                        Unfinish
+                                    </a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="{{ route('order.index') }}" class="btn btn-primary">
+                                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                        Back
+                                    </a>
+                                </div>
+                            @else
+                                <div class="col-auto">
+                                    <a href="javascript:;" id="finish_unfinish" data-name="finish" data-href="{{ route('order.make.finish', $order) }}" class="btn btn-success">
+                                        Finish
+                                    </a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="{{ route('order.index') }}" class="btn btn-primary">
+                                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                        Back
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,7 +62,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="work_order_number">Work Order Number</label>
                                 <input type="text" class="form-control @error('work_order_number') is-invalid @enderror"
-                                       id="work_order_number" name="work_order_number" placeholder="Work Order Number.." value="{{ old('work_order_number', $order->work_order_number) }}">
+                                       id="work_order_number" name="work_order_number" placeholder="Work Order Number.." value="{{ old('work_order_number', $order->work_order_number) }}" @disabled($order->status)>
                                 @error('work_order_number')
                                 <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
@@ -48,7 +72,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="customer">Customer</label>
                                 <input type="text" class="form-control @error('customer') is-invalid @enderror"
-                                       id="customer" name="customer" placeholder="Customer.." value="{{ old('customer', $order->customer) }}" list="customers_list">
+                                       id="customer" name="customer" placeholder="Customer.." value="{{ old('customer', $order->customer) }}" list="customers_list" @disabled($order->status)>
                                 <datalist id="customers_list">
                                     @foreach($customers as $value)
                                         <option value="{{ $value }}">{{ $value }}</option>
@@ -65,7 +89,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="part_name">Part Name</label>
                                 <input type="text" class="form-control @error('part_name') is-invalid @enderror"
-                                       id="part_name" name="part_name" placeholder="Part Name.." value="{{ old('part_name', $order->part_name) }}" list="parts_list">
+                                       id="part_name" name="part_name" placeholder="Part Name.." value="{{ old('part_name', $order->part_name) }}" list="parts_list" @disabled($order->status)>
                                 <datalist id="parts_list">
                                     @foreach($parts as $value)
                                         <option value="{{ $value }}">{{ $value }}</option>
@@ -80,7 +104,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="metal">Metal</label>
                                 <input type="text" class="form-control @error('metal') is-invalid @enderror"
-                                       id="metal" name="metal" placeholder="Metal.." value="{{ old('metal', $order->metal) }}" list="metals_list">
+                                       id="metal" name="metal" placeholder="Metal.." value="{{ old('metal', $order->metal) }}" list="metals_list" @disabled($order->status)>
                                 <datalist id="metals_list">
                                     @foreach($metals as $value)
                                         <option value="{{ $value }}">{{ $value }}</option>
@@ -97,7 +121,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="size">Size</label>
                                 <input type="text" class="form-control @error('size') is-invalid @enderror"
-                                       id="size" name="size" placeholder="Size.." value="{{ old('size', $order->size) }}" list="sizes_list">
+                                       id="size" name="size" placeholder="Size.." value="{{ old('size', $order->size) }}" list="sizes_list" @disabled($order->status)>
                                 <datalist id="sizes_list">
                                     @foreach($sizes as $value)
                                         <option value="{{ $value }}">{{ $value }}</option>
@@ -112,7 +136,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="quantity">Quantity</label>
                                 <input type="number" class="form-control @error('quantity') is-invalid @enderror"
-                                       id="quantity" name="quantity" placeholder="Quantity.." value="{{ old('quantity', $order->quantity) }}" step="0.01">
+                                       id="quantity" name="quantity" placeholder="Quantity.." value="{{ old('quantity', $order->quantity) }}" step="0.01" @disabled($order->status)>
                                 @error('quantity')
                                 <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
@@ -124,7 +148,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="weight_per_pcs">Weight Per PCs</label>
                                 <input type="number" class="form-control @error('weight_per_pcs') is-invalid @enderror"
-                                       id="weight_per_pcs" name="weight_per_pcs" placeholder="Weight Per PCs.." value="{{ old('weight_per_pcs', $order->weight_per_pcs) }}" step="0.001">
+                                       id="weight_per_pcs" name="weight_per_pcs" placeholder="Weight Per PCs.." value="{{ old('weight_per_pcs', $order->weight_per_pcs) }}" step="0.001" @disabled($order->status)>
                                 @error('weight_per_pcs')
                                 <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
@@ -134,7 +158,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="required_weight">Required Weight</label>
                                 <input type="number" class="form-control @error('required_weight') is-invalid @enderror"
-                                       id="required_weight" name="required_weight" placeholder="Required Weight.." value="{{ old('required_weight', $order->required_weight) }}" step="0.001">
+                                       id="required_weight" name="required_weight" placeholder="Required Weight.." value="{{ old('required_weight', $order->required_weight) }}" step="0.001" @disabled($order->status)>
                                 @error('required_weight')
                                 <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
@@ -146,7 +170,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="po_no">PO No.</label>
                                 <input type="text" class="form-control @error('po_no') is-invalid @enderror"
-                                       id="po_no" name="po_no" placeholder="PO No..." value="{{ old('po_no', $order->po_no) }}">
+                                       id="po_no" name="po_no" placeholder="PO No..." value="{{ old('po_no', $order->po_no) }}" @disabled($order->status)>
                                 @error('po_no')
                                 <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
@@ -158,7 +182,7 @@
                                 <input type="text"
                                        class="js-flatpickr form-control @error('po_date') is-invalid @enderror"
                                        value="{{ old('po_date', date('d-m-Y', strtotime($order->po_date))) }}" id="po_date" name="po_date"
-                                       placeholder="d-m-Y" data-date-format="d-m-Y">
+                                       placeholder="d-m-Y" data-date-format="d-m-Y" @disabled($order->status)>
                                 @error('po_date')
                                 <span class="invalid-feedback">
                                     <strong>{{ $message }}</strong>
@@ -172,7 +196,7 @@
                                 <input type="text"
                                        class="js-flatpickr form-control @error('delivery_date') is-invalid @enderror"
                                        value="{{ old('delivery_date', date('d-m-Y', strtotime($order->delivery_date))) }}" id="delivery_date" name="delivery_date"
-                                       placeholder="d-m-Y" data-date-format="d-m-Y">
+                                       placeholder="d-m-Y" data-date-format="d-m-Y" @disabled($order->status)>
                                 @error('delivery_date')
                                 <span class="invalid-feedback">
                                     <strong>{{ $message }}</strong>
@@ -182,7 +206,7 @@
                             <div class="col-6">
                                 <label class="form-label" for="remark">Remark</label>
                                 <input type="text" class="form-control @error('remark') is-invalid @enderror"
-                                       id="remark" name="remark" placeholder="Remark.." value="{{ old('remark', $order->remark) }}">
+                                       id="remark" name="remark" placeholder="Remark.." value="{{ old('remark', $order->remark) }}" @disabled($order->status)>
                                 @error('remark')
                                 <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
@@ -190,9 +214,11 @@
                                 @enderror
                             </div>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
+                        @if(!$order->status)
+                            <div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        @endif
                     </form>
                     <!-- END Form Labels on top - Default Style -->
                 </div>
@@ -204,6 +230,7 @@
 @section('js')
     @include('layouts.includes.datepicker_scripts')
     @include('layouts.includes.validation_scripts')
+    @include('layouts.includes.sweetalert2_scripts')
     <script>
         $(function () {
             Codebase.helpersOnLoad(['js-flatpickr', 'jq-datepicker', 'jq-validation']);
@@ -264,6 +291,33 @@
                 weight_per_pcs = !isNaN(weight_per_pcs) ? weight_per_pcs : 0;
 
                 $("#required_weight").val((quantity * weight_per_pcs).toFixed(2));
+            });
+
+            $(document).on("click", "#finish_unfinish", function(e) {
+                let location = $(this).data('href');
+                let name = $(this).data('name');
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: `You want to ${name} this order!`,
+                    icon: "warning",
+                    showCancelButton: !0,
+                    customClass: {
+                        confirmButton: "btn btn-danger m-1",
+                        cancelButton: "btn btn-secondary m-1",
+                    },
+                    confirmButtonText: "Yes, do it!",
+                    html: !1,
+                    preConfirm: (e) =>
+                        new Promise((e) => {
+                            setTimeout(() => {
+                                e();
+                            }, 50);
+                        }),
+                }).then((resp) => {
+                    if(resp.value) {
+                        window.location = location;
+                    }
+                });
             });
         });
     </script>

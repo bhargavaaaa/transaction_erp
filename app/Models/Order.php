@@ -11,6 +11,11 @@ class Order extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    public function scopeOpen($query): void
+    {
+        $query->where('status', 0);
+    }
+
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');

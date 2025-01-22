@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CuttingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -45,8 +46,14 @@ Route::middleware('auth')->group(function () {
     Route::get('order/check-work-order-no-unique/{order?}', [OrderController::class, 'checkWorkOrderNoUnique'])->name('order.check-work-order-no-unique');
     Route::get('order/import', [OrderController::class, 'import_orders'])->name('import.orders');
     Route::post('order/import', [OrderController::class, 'import_orders_store'])->name('import.orders.store');
+    Route::get('order/{order}/make/finish', [OrderController::class, 'finish'])->name('order.make.finish');
+    Route::get('order/{order}/make/unfinish', [OrderController::class, 'unfinish'])->name('order.make.unfinish');
     Route::resource('order', OrderController::class)->except(['show']);
     /* Order routes */
+
+    /* Cutting routes */
+    Route::resource('cutting', CuttingController::class)->only(['index', 'create', 'store', 'destroy']);
+    /* Cutting routes */
 
     /* Profile */
     Route::post('profile/update-password', [ProfileController::class, 'update_password'])->name('profile.update-password');

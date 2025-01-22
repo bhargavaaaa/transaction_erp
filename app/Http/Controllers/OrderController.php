@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use RuntimeException;
 
 class OrderController extends Controller
 {
@@ -173,6 +174,48 @@ class OrderController extends Controller
         }
         DB::commit();
         return redirect()->route('order.index')->with("success", count($orders)." orders have been imported.");
+    }
+
+    public function finish(string $order)
+    {
+        $order = Order::findOrFail($order);
+        DB::beginTransaction();
+        try {
+            if($order->status) {
+                throw new RuntimeException('Can not do edit or delete after transaction finished.');
+            }
+
+            $input["status"] = true;
+            $input["updated_by"] = getCurrentUserId();
+            $order->update($input);
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withInput()->with("error", "Something went wrong, " . $e->getMessage());
+        }
+        DB::commit();
+
+        return redirect()->back()->with('success', 'Order has been finished.');
+    }
+
+    public function unfinish(string $order)
+    {
+        $order = Order::findOrFail($order);
+        DB::beginTransaction();
+        try {
+            if(!$order->status) {
+                throw new RuntimeException('Can not do edit or delete after order finished.');
+            }
+
+            $input["status"] = false;
+            $input["updated_by"] = getCurrentUserId();
+            $order->update($input);
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withInput()->with("error", "Something went wrong, " . $e->getMessage());
+        }
+        DB::commit();
+
+        return redirect()->back()->with('success', 'Order has been unfinished.');
     }
 
     public function checkWorkOrderNoUnique(Request $request, string $id = null)
