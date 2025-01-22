@@ -57,6 +57,7 @@ class CuttingController extends Controller
             'cutting_end_date' => ['required', 'date'],
             'cutting_recorded_quantity' => ['required', 'numeric'],
             'cutting_rejected_quantity' => ['required', 'numeric'],
+            'cutting_remark' => ['nullable', 'string', 'max:255'],
         ]);
 
         $order = Order::open()->where('work_order_number', $request->work_order_number)->first();
@@ -64,6 +65,7 @@ class CuttingController extends Controller
         $order->cutting_recorded_quantity = $request->cutting_recorded_quantity;
         $order->cutting_rejected_quantity = $request->cutting_rejected_quantity;
         $order->cutting_net_quantity = $order->cutting_recorded_quantity - $order->cutting_rejected_quantity;
+        $order->cutting_remark = $request->cutting_remark;
         $order->cutting_updated_by = auth()->user()->id;
         $order->save();
 
@@ -80,6 +82,7 @@ class CuttingController extends Controller
         $order->cutting_recorded_quantity = 0;
         $order->cutting_rejected_quantity = 0;
         $order->cutting_net_quantity = 0;
+        $order->cutting_remark = NULL;
         $order->cutting_updated_by = auth()->user()->id;
         $order->save();
 

@@ -67,6 +67,7 @@ class DispatchController extends Controller
             'dispatch_end_date' => ['required', 'date'],
             'dispatch_recorded_quantity' => ['required', 'numeric'],
             'dispatch_rejected_quantity' => ['required', 'numeric'],
+            'dispatch_remark' => ['nullable', 'string', 'max:255'],
         ]);
 
         $order = Order::open()->where('work_order_number', $request->work_order_number)->first();
@@ -74,6 +75,7 @@ class DispatchController extends Controller
         $order->dispatch_recorded_quantity = $request->dispatch_recorded_quantity;
         $order->dispatch_rejected_quantity = $request->dispatch_rejected_quantity;
         $order->dispatch_net_quantity = $order->dispatch_recorded_quantity - $order->dispatch_rejected_quantity;
+        $order->dispatch_remark = $request->dispatch_remark;
         $order->dispatch_updated_by = auth()->user()->id;
         $order->save();
 
@@ -90,6 +92,7 @@ class DispatchController extends Controller
         $order->dispatch_recorded_quantity = 0;
         $order->dispatch_rejected_quantity = 0;
         $order->dispatch_net_quantity = 0;
+        $order->dispatch_remark = NULL;
         $order->dispatch_updated_by = auth()->user()->id;
         $order->save();
 

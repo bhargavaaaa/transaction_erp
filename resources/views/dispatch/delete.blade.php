@@ -37,6 +37,15 @@
                                         </span>
             @enderror
         </div>
+        <div class="col-6 col-md-4 mb-2">
+            <label class="form-label" for="dispatch_remark">Dispatch Remark</label>
+            <input type="text" class="form-control" id="dispatch_remark" name="dispatch_remark" placeholder="Dispatch Remark.." value="{{ $order->dispatch_remark }}" disabled>
+            @error('dispatch_remark')
+            <span class="invalid-feedback">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+            @enderror
+        </div>
         <div class="auto">
             <label class="form-label d-block">&nbsp;</label>
             <button type="submit" class="btn btn-danger">Delete</button>

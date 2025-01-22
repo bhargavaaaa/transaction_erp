@@ -65,6 +65,7 @@ class OtherController extends Controller
             'other_end_date' => ['required', 'date'],
             'other_recorded_quantity' => ['required', 'numeric'],
             'other_rejected_quantity' => ['required', 'numeric'],
+            'other_remark' => ['nullable', 'string', 'max:255'],
         ]);
 
         $order = Order::open()->where('work_order_number', $request->work_order_number)->first();
@@ -72,6 +73,7 @@ class OtherController extends Controller
         $order->other_recorded_quantity = $request->other_recorded_quantity;
         $order->other_rejected_quantity = $request->other_rejected_quantity;
         $order->other_net_quantity = $order->other_recorded_quantity - $order->other_rejected_quantity;
+        $order->other_remark = $request->other_remark;
         $order->other_updated_by = auth()->user()->id;
         $order->save();
 
@@ -88,6 +90,7 @@ class OtherController extends Controller
         $order->other_recorded_quantity = 0;
         $order->other_rejected_quantity = 0;
         $order->other_net_quantity = 0;
+        $order->other_remark = NULL;
         $order->other_updated_by = auth()->user()->id;
         $order->save();
 

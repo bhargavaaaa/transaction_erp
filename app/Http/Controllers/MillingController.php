@@ -63,6 +63,7 @@ class MillingController extends Controller
             'milling_end_date' => ['required', 'date'],
             'milling_recorded_quantity' => ['required', 'numeric'],
             'milling_rejected_quantity' => ['required', 'numeric'],
+            'milling_remark' => ['nullable', 'string', 'max:255'],
         ]);
 
         $order = Order::open()->where('work_order_number', $request->work_order_number)->first();
@@ -70,6 +71,7 @@ class MillingController extends Controller
         $order->milling_recorded_quantity = $request->milling_recorded_quantity;
         $order->milling_rejected_quantity = $request->milling_rejected_quantity;
         $order->milling_net_quantity = $order->milling_recorded_quantity - $order->milling_rejected_quantity;
+        $order->milling_remark = $request->milling_remark;
         $order->milling_updated_by = auth()->user()->id;
         $order->save();
 
@@ -86,6 +88,7 @@ class MillingController extends Controller
         $order->milling_recorded_quantity = 0;
         $order->milling_rejected_quantity = 0;
         $order->milling_net_quantity = 0;
+        $order->milling_remark = NULL;
         $order->milling_updated_by = auth()->user()->id;
         $order->save();
 

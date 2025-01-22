@@ -36,6 +36,15 @@
                                         </span>
             @enderror
         </div>
+        <div class="col-6 col-md-4 mb-2">
+            <label class="form-label" for="other_remark">Other Remark</label>
+            <input type="text" class="form-control" id="other_remark" name="other_remark" placeholder="Other Remark..">
+            @error('other_remark')
+            <span class="invalid-feedback">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+            @enderror
+        </div>
         <div class="auto">
             <label class="form-label d-block">&nbsp;</label>
             <button type="submit" class="btn btn-primary">Save</button>

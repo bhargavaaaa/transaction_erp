@@ -61,6 +61,7 @@ class TurningController extends Controller
             'turning_end_date' => ['required', 'date'],
             'turning_recorded_quantity' => ['required', 'numeric'],
             'turning_rejected_quantity' => ['required', 'numeric'],
+            'turning_remark' => ['nullable', 'string', 'max:255'],
         ]);
 
         $order = Order::open()->where('work_order_number', $request->work_order_number)->first();
@@ -68,6 +69,7 @@ class TurningController extends Controller
         $order->turning_recorded_quantity = $request->turning_recorded_quantity;
         $order->turning_rejected_quantity = $request->turning_rejected_quantity;
         $order->turning_net_quantity = $order->turning_recorded_quantity - $order->turning_rejected_quantity;
+        $order->turning_remark = $request->turning_remark;
         $order->turning_updated_by = auth()->user()->id;
         $order->save();
 
@@ -84,6 +86,7 @@ class TurningController extends Controller
         $order->turning_recorded_quantity = 0;
         $order->turning_rejected_quantity = 0;
         $order->turning_net_quantity = 0;
+        $order->turning_remark = NULL;
         $order->turning_updated_by = auth()->user()->id;
         $order->save();
 
