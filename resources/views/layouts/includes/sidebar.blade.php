@@ -6,9 +6,9 @@
         <div class="content-header justify-content-lg-center">
             <!-- Logo -->
             <div>
-                <a class="fw-bold tracking-wide mx-auto" href="/">
+                <a class="fw-bold tracking-wide mx-auto" href="javascript:void(0);">
                     <span class="smini-hidden">
-                        <span style="color: #0059a1;">Akshar</span>
+                        <span style="color: #0059a1;">Akshar Engineers</span>
                     </span>
                 </a>
             </div>
