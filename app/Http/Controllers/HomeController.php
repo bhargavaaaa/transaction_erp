@@ -2,16 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventory;
-use App\Models\Item;
-use App\Models\Ledger;
-use App\Models\LooseInwardDetail;
-use App\Models\LooseOutwardDetail;
-use App\Models\Quotation;
-use App\Models\SubCategory;
-use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -22,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:gantt-view')->except([]);
     }
 
     /**

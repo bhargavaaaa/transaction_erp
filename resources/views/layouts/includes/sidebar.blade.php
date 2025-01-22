@@ -69,27 +69,16 @@
             <!-- Side Navigation -->
             <div class="content-side content-side-full">
                 <ul class="nav-main">
+                    @adminorcan('gantt-view')
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->segment(1) === 'dashboard' ? ' active' : '' }}"
                            href="{{ route('dashboard') }}">
-                            <i class="nav-main-link-icon fa fa-house-user"></i>
-                            <span class="nav-main-link-name">Dashboard</span>
+                            <i class="nav-main-link-icon fa fa-file-alt"></i>
+                            <span class="nav-main-link-name">Gantt</span>
                         </a>
                     </li>
-                    <li class="nav-main-item">
-                        <a class="nav-main-link {{ request()->segment(1) === 'role' ? 'active' : '' }}"
-                           href="{{ route('role.index') }}">
-                            <i class="nav-main-link-icon fa fa-user-group"></i>
-                            <span class="nav-main-link-name">Role</span>
-                        </a>
-                    </li>
-                    <li class="nav-main-item">
-                        <a class="nav-main-link {{ request()->segment(1) === 'user' ? 'active' : '' }}"
-                           href="{{ route('user.index') }}">
-                            <i class="nav-main-link-icon fa fa-user"></i>
-                            <span class="nav-main-link-name">User</span>
-                        </a>
-                    </li>
+                    @endadminorcan
+                    @adminorcan('order-view')
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->segment(1) === 'order' ? 'active' : '' }}"
                            href="{{ route('order.index') }}">
@@ -97,6 +86,8 @@
                             <span class="nav-main-link-name">Order</span>
                         </a>
                     </li>
+                    @endadminorcan
+                    @adminorcan('cutting-view')
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->segment(1) === 'cutting' ? 'active' : '' }}"
                            href="{{ route('cutting.index') }}">
@@ -104,6 +95,61 @@
                             <span class="nav-main-link-name">Cutting</span>
                         </a>
                     </li>
+                    @endadminorcan
+                    @adminorcan('turning-view')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->segment(1) === 'turning' ? 'active' : '' }}"
+                           href="{{ route('turning.index') }}">
+                            <i class="nav-main-link-icon fa fa-refresh"></i>
+                            <span class="nav-main-link-name">Turning</span>
+                        </a>
+                    </li>
+                    @endadminorcan
+                    @adminorcan('milling-view')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->segment(1) === 'milling' ? 'active' : '' }}"
+                           href="{{ route('milling.index') }}">
+                            <i class="nav-main-link-icon fa fa-mill-sign"></i>
+                            <span class="nav-main-link-name">Milling</span>
+                        </a>
+                    </li>
+                    @endadminorcan
+                    @adminorcan('other-view')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->segment(1) === 'other' ? 'active' : '' }}"
+                           href="{{ route('other.index') }}">
+                            <i class="nav-main-link-icon fa fa-toolbox"></i>
+                            <span class="nav-main-link-name">Other</span>
+                        </a>
+                    </li>
+                    @endadminorcan
+                    @adminorcan('dispatch-view')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->segment(1) === 'dispatch' ? 'active' : '' }}"
+                           href="{{ route('dispatch.index') }}">
+                            <i class="nav-main-link-icon fa fa-truck"></i>
+                            <span class="nav-main-link-name">Dispatch</span>
+                        </a>
+                    </li>
+                    @endadminorcan
+                    @adminorcan('role-view')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->segment(1) === 'role' ? 'active' : '' }}"
+                           href="{{ route('role.index') }}">
+                            <i class="nav-main-link-icon fa fa-user-group"></i>
+                            <span class="nav-main-link-name">Role</span>
+                        </a>
+                    </li>
+                    @endadminorcan
+                    @adminorcan('user-view')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->segment(1) === 'user' ? 'active' : '' }}"
+                           href="{{ route('user.index') }}">
+                            <i class="nav-main-link-icon fa fa-user"></i>
+                            <span class="nav-main-link-name">User</span>
+                        </a>
+                    </li>
+                    @endadminorcan
                 </ul>
             </div>
             <!-- END Side Navigation -->

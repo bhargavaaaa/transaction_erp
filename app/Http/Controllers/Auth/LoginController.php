@@ -41,4 +41,31 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function redirectTo()
+    {
+        if (isAdmin()) {
+            return '/dashboard';
+        } else if (auth()->user()->can('gantt-view')) {
+            return '/dashboard';
+        } else if (auth()->user()->can('order-view')) {
+            return '/order';
+        } else if (auth()->user()->can('cutting-view')) {
+            return '/cutting';
+        } else if (auth()->user()->can('turning-view')) {
+            return '/turning';
+        } else if (auth()->user()->can('milling-view')) {
+            return '/milling';
+        } else if (auth()->user()->can('other-view')) {
+            return '/other';
+        } else if (auth()->user()->can('dispatch-view')) {
+            return '/dispatch';
+        } else if (auth()->user()->can('role-view')) {
+            return '/role';
+        } else if (auth()->user()->can('user-view')) {
+            return '/user';
+        } else {
+            return '/profile';
+        }
+    }
 }

@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\CuttingController;
+use App\Http\Controllers\DispatchController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MillingController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OtherController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TurningController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +58,22 @@ Route::middleware('auth')->group(function () {
     /* Cutting routes */
     Route::resource('cutting', CuttingController::class)->only(['index', 'create', 'store', 'destroy']);
     /* Cutting routes */
+
+    /* Turning routes */
+    Route::resource('turning', TurningController::class)->only(['index', 'create', 'store', 'destroy']);
+    /* Turning routes */
+
+    /* Milling routes */
+    Route::resource('milling', MillingController::class)->only(['index', 'create', 'store', 'destroy']);
+    /* Milling routes */
+
+    /* Other routes */
+    Route::resource('other', OtherController::class)->only(['index', 'create', 'store', 'destroy']);
+    /* Other routes */
+
+    /* Dispatch routes */
+    Route::resource('dispatch', DispatchController::class)->only(['index', 'create', 'store', 'destroy']);
+    /* Dispatch routes */
 
     /* Profile */
     Route::post('profile/update-password', [ProfileController::class, 'update_password'])->name('profile.update-password');

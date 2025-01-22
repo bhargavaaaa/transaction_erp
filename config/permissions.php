@@ -2,7 +2,10 @@
 
 return [
     'permissions' => [
-        'Master' => [
+        'Permissions' => [
+            'Gantt' => [
+                'gantt-view' => 'Gantt View'
+            ],
             'Role' => [
                 'role-view' => 'Role View',
                 'role-create' => 'Role Create',
