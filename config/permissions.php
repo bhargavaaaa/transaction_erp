@@ -6,6 +6,9 @@ return [
             'Gantt' => [
                 'gantt-view' => 'Gantt View'
             ],
+            'Order Process Card' => [
+                'order-process-card-view' => 'Order Process Card View'
+            ],
             'Role' => [
                 'role-view' => 'Role View',
                 'role-create' => 'Role Create',

@@ -48,6 +48,8 @@ class LoginController extends Controller
             return '/dashboard';
         } else if (auth()->user()->can('gantt-view')) {
             return '/dashboard';
+        } else if (auth()->user()->can('order-process-card-view')) {
+            return '/order-process-card';
         } else if (auth()->user()->can('order-view')) {
             return '/order';
         } else if (auth()->user()->can('cutting-view')) {

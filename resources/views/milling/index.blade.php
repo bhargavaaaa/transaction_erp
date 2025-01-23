@@ -59,7 +59,6 @@
             $(document).on('submit', '#transaction_form', function (e) {
                 e.preventDefault();
                 if (isLoading) {
-                    alert();
                     return false;
                 }
 

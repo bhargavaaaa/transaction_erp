@@ -78,6 +78,15 @@
                         </a>
                     </li>
                     @endadminorcan
+                    @adminorcan('order-process-card-view')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link{{ request()->segment(1) === 'order-process-card' ? ' active' : '' }}"
+                           href="{{ route('order-process-card.index') }}">
+                            <i class="nav-main-link-icon fa fa-id-card-alt"></i>
+                            <span class="nav-main-link-name">Order Process Card</span>
+                        </a>
+                    </li>
+                    @endadminorcan
                     @adminorcan('order-view')
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->segment(1) === 'order' ? 'active' : '' }}"

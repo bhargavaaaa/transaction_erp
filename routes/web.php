@@ -5,6 +5,7 @@ use App\Http\Controllers\DispatchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MillingController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderProcessCardController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -34,6 +35,8 @@ Auth::routes(['register' => false, 'reset' => false, 'verify' => false, 'confirm
 /* Common Routes */
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+    Route::get('order-process-card', [OrderProcessCardController::class, 'index'])->name('order-process-card.index');
 
     /* Role routes */
     Route::get('role/check-name-unique/{role?}', [RoleController::class, 'checkNameUnique'])->name('role.check-name-unique');
