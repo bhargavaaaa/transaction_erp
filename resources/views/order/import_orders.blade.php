@@ -17,7 +17,7 @@
                         </h3>
                     </div>
                     <div class="col-6 text-end">
-                        <a href="javascript:history.back()" class="btn btn-primary">
+                        <a href="{{ route('order.index') }}" class="btn btn-primary">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i>
                             Back
                         </a>
@@ -30,7 +30,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-4">
-                            <div class="col-6">
+                            <div class="col-12 col-md-4 mb-2">
                                 <label class="form-label" for="order_file">Import Orders File</label>
                                 <input type="file" class="form-control @error('order_file') is-invalid @enderror" id="order_file" name="order_file">
                                 @error('order_file')
@@ -39,7 +39,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-md-4 mb-2">
                                 <label class="form-label d-block" for="order_file">&nbsp;</label>
                                 <a href="{{ url('templates/Import Order Template.xlsx') }}" class="btn btn-alt-primary" download>
                                     <i class="fa fa-download me-1"></i>

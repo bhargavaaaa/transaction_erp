@@ -17,7 +17,7 @@
                         </h3>
                     </div>
                     <div class="col-6 text-end">
-                        <a href="javascript:history.back()" class="btn btn-primary">
+                        <a href="{{ route('role.index') }}" class="btn btn-primary">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i>
                             Back
                         </a>

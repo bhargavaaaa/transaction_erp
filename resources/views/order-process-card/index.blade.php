@@ -59,7 +59,7 @@
 
         <!-- Dynamic Table with Export Buttons -->
         <div class="block block-rounded" id="result_div" style="display: none">
-            <div class="block-content block-content-full">
+            <div class="block-content block-content-full overflow-auto">
                 <div class="row mb-1">
                     <div class="col-12 text-center">
                         <h5 class="mb-0">Order Process Card</h5>
