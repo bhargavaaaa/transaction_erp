@@ -33,6 +33,31 @@ class UserTableSeeder extends Seeder
             ]);
 
             $user->syncRoles($role);
+
+            $role = Role::create([
+                'name' => 'Cutting'
+            ]);
+            $role->syncPermissions(['cutting-view', 'cutting-modify', 'cutting-delete']);
+
+            $role = Role::create([
+                'name' => 'Turning'
+            ]);
+            $role->syncPermissions(['turning-view', 'turning-modify', 'turning-delete']);
+
+            $role = Role::create([
+                'name' => 'Milling'
+            ]);
+            $role->syncPermissions(['milling-view', 'milling-modify', 'milling-delete']);
+
+            $role = Role::create([
+                'name' => 'Other'
+            ]);
+            $role->syncPermissions(['other-view', 'other-modify', 'other-delete']);
+
+            $role = Role::create([
+                'name' => 'Dispatch'
+            ]);
+            $role->syncPermissions(['dispatch-view', 'dispatch-modify', 'dispatch-delete']);
         }
     }
 }

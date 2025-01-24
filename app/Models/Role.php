@@ -8,7 +8,7 @@ class Role extends SpatieRole
 {
     public function scopeNotAdmin($query)
     {
-        return $query->where('name', '!=', 'Admin');
+        return $query->where('id', '>', '6');
     }
 
     public function scopeAdmin($query)

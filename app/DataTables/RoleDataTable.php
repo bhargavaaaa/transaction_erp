@@ -29,7 +29,7 @@ class RoleDataTable extends DataTable
             })
             ->addColumn('action', function ($data) {
                 $html = "";
-                if($data->name !== "Admin" && $data->name !== "Catalogue User") {
+                if($data->id > 6) {
                     $html .= '<div class="btn-group">';
                     $html .= getEditButton(route('role.edit', ['role' => $data->id]), "", "", "role-edit");
                     $html .= getDeleteButton("javascript:;", "deleteModel", "data-id=\"$data->id\"", "role-delete");
