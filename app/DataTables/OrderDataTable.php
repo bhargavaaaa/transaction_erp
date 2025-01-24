@@ -58,6 +58,7 @@ class OrderDataTable extends DataTable
             ->searching()
             ->serverSide()
             ->scrollX()
+            ->dom("<'row'<'col-sm-12 col-md-6 mb-2'l><'col-sm-12 col-md-6 mb-2'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>")
             ->columns($this->getColumns());
     }
 
@@ -73,10 +74,10 @@ class OrderDataTable extends DataTable
                 ->title('#'),
 
             Column::make('work_order_number')
-                ->title('Work Order Number'),
+                ->title('PC No'),
 
             Column::make('customer')
-                ->title('Customer'),
+                ->title('Cust'),
 
             Column::make('part_name')
                 ->title('Part Name'),
@@ -88,13 +89,13 @@ class OrderDataTable extends DataTable
                 ->title('Size'),
 
             Column::make('quantity')
-                ->title('Quantity'),
+                ->title('Qty'),
 
             Column::make('required_weight')
-                ->title('Required Weight'),
+                ->title('Req. Wt'),
 
             Column::make('delivery_date')
-                ->title('Delivery Date'),
+                ->title('Del Dt'),
 
             Column::make('created_by.name', 'createdBy.name')
                 ->searchable(false)

@@ -17,14 +17,14 @@
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <div class="row w-100">
-                    <div class="col-6">
+                    <div class="col-auto">
                         <h3 class="block-title">
                             Orders
                         </h3>
                     </div>
-                    <div class="col-6 text-end">
-                        {!! getCreateButton(route('import.orders'), "Import Orders", "", "", "order-create") !!}
-                        {!! getCreateButton(route('order.create'), "Add Order", "", "", "order-create") !!}
+                    <div class="col text-end">
+                        {!! getCreateButton(route('import.orders'), "Import Orders", "mb-1", "", "order-create") !!}
+                        {!! getCreateButton(route('order.create'), "Add Order", "mb-1", "", "order-create") !!}
                     </div>
                 </div>
             </div>

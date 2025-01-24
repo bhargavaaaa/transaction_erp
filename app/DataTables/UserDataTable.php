@@ -67,9 +67,10 @@ class UserDataTable extends DataTable
             ->addTableClass(['table-striped', 'table-nowrap', 'datatable'])
             ->lengthMenu([100, 200, 500, 1000])
             ->minifiedAjax()
-            ->searching(true)
-            ->serverSide(true)
-            ->scrollX(true)
+            ->searching()
+            ->serverSide()
+            ->scrollX()
+            ->dom("<'row'<'col-sm-12 col-md-6 mb-2'l><'col-sm-12 col-md-6 mb-2'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>")
             ->columns($this->getColumns());
     }
 
