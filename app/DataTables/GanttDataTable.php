@@ -19,6 +19,12 @@ class GanttDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        $clone_query = clone $query;
+
+        $total_line_items = $clone_query->count();
+        $quantity_total = $clone_query->sum('quantity');
+        $parts = $clone_query->selectRaw('part_name as id, part_name as text')->whereNotNull('part_name')->groupByRaw('1, 2')->pluck('text', 'id');
+
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->editColumn('delivery_date', function ($data) {
@@ -83,7 +89,25 @@ class GanttDataTable extends DataTable
             ->editColumn('po_date', function ($data) {
                 return Carbon::parse($data->po_date)->format("d/m/Y");
             })
-            ->rawColumns(['svg_code']);
+            ->addColumn('row_color', function ($data) {
+                if ($data->dispatch_net_quantity >= $data->quantity) {
+                    return "#bfebb7";
+                } else if ($data->delivery_date < Carbon::now()) {
+                    return "#f7b2b2";
+                } else {
+                    return "#ffffff";
+                }
+            })
+            ->addColumn('total_line_items', function () use ($total_line_items) {
+                return "Total Items: $total_line_items";
+            })
+            ->addColumn('quantity_total', function () use ($quantity_total) {
+                return $quantity_total;
+            })
+            ->addColumn('parts', function () use ($parts) {
+                return json_encode($parts);
+            })
+            ->rawColumns(['svg_code', 'parts']);
     }
 
     /**
@@ -117,11 +141,21 @@ class GanttDataTable extends DataTable
             ->searching()
             ->serverSide()
             ->scrollX()
+            ->ordering(false)
             ->dom("<'row'<'col-sm-12 col-md-6 mb-2'l><'col-sm-12 col-md-6 mb-2'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>")
             ->createdRow('function(row, data, dataIndex) {
-                if(data.dispatch_net_quantity >= data.quantity){
-                    $(row).find("td").addClass("bg-success");
-                }
+                $(row).find("td").css("background-color", data.row_color).css("cursor", "pointer");
+            }')
+            ->footerCallback('function (row, data, start, end, display) {
+                let api = this.api();
+
+                let total_line_items = (data && data[0] && data[0].total_line_items) ? data[0].total_line_items : 0;
+                let quantity_total = (data && data[0] && data[0].quantity_total) ? data[0].quantity_total : 0;
+                let parts = (data && data[0] && data[0].parts) ? JSON.parse(data[0].parts) : [];
+
+                $("#total_line_items").text(total_line_items);
+                $("#total_quantity").text(quantity_total);
+                addSelectData($("#part_name"), parts);
             }')
             ->columns($this->getColumns());
     }
@@ -154,6 +188,9 @@ class GanttDataTable extends DataTable
 
             Column::make('part_name')
                 ->title('Part Name'),
+
+            Column::make('metal')
+                ->title('Metal'),
 
             Column::make('quantity')
                 ->title('Qty'),

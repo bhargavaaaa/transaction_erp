@@ -40,9 +40,6 @@
                     <select class="js-select2 form-select"
                             id="part_name" name="part_name" data-placeholder="Select Part..">
                         <option></option>
-                        @foreach ($parts as $value)
-                            <option value="{{ $value }}">{{ $value }}</option>
-                        @endforeach
                     </select>
                 </div>
                 <div class="col-6 col-md-4 mb-2">
@@ -76,7 +73,7 @@
         </div>
         <div class="block-content block-content-full">
             {{-- Display DataTable --}}
-            {{ $dataTable->table() }}
+            <table class="table table-nowrap datatable" id="order-table"><thead><tr><th title="#">#</th><th title="PC No">PC No</th><th title="Cust">Cust</th><th title="PO Date">PO Date</th><th title="PO No">PO No</th><th title="Del Dt">Del Dt</th><th title="Part Name">Part Name</th><th title="Metal">Metal</th><th title="Qty">Qty</th><th title="C">C</th><th title="T">T</th><th title="M">M</th><th title="O">O</th><th title="D">D</th></tr><tr><th colspan="8" id="total_line_items">Total Items: 0</th><th id="total_quantity">0</th><th colspan="5"></th></tr></thead></table>
         </div>
     </div>
 </div>
@@ -113,5 +110,19 @@
                 $("#order_progress_modal").modal("show");
             })
         });
+
+        function addSelectData(selector, objects) {
+            let data = $.map(objects, function(obj) {
+                obj.text = obj.text || obj.name;
+                return obj;
+            });
+            selector.empty();
+            selector.select2({
+                allowClear: true,
+                placeholder: 'Select an option',
+                data: data
+            });
+            selector.select2('val', 0);
+        }
     </script>
 @endsection

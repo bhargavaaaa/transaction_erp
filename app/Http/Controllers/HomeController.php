@@ -23,9 +23,8 @@ class HomeController extends Controller
     public function index(GanttDataTable $dataTable)
     {
         $customers = Order::select('customer')->whereNotNull('customer')->groupBy('customer')->pluck('customer');
-        $parts = Order::select('part_name')->whereNotNull('part_name')->groupBy('part_name')->pluck('part_name');
         $metals = Order::select('metal')->whereNotNull('metal')->groupBy('metal')->pluck('metal');
 
-        return $dataTable->render('home', compact('customers', 'parts', 'metals'));
+        return $dataTable->render('home', compact('customers', 'metals'));
     }
 }
