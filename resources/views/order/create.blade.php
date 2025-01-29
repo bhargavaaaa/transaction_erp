@@ -238,8 +238,7 @@
                         number: true
                     },
                     "po_no": {
-                        required: true,
-                        number: true
+                        required: true
                     },
                     "po_date": {
                         required: true

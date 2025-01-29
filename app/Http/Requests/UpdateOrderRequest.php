@@ -35,7 +35,7 @@ class UpdateOrderRequest extends FormRequest
             'po_date' => ['required', 'date'],
             'delivery_date' => ['required', 'date'],
             'remark' => ['nullable', 'string', 'max:255'],
-            'updated_by' => ['required', 'numeric'],
+            'updated_by' => ['required'],
         ];
     }
 
