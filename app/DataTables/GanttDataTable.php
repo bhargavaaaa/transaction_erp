@@ -23,7 +23,7 @@ class GanttDataTable extends DataTable
 
         $total_line_items = $clone_query->count();
         $quantity_total = $clone_query->sum('quantity');
-        $parts = $clone_query->selectRaw('part_name as id, part_name as text')->whereNotNull('part_name')->groupByRaw('1, 2')->pluck('text', 'id');
+        $parts = $clone_query->selectRaw('TRIM(part_name) as id, TRIM(part_name) as text')->whereNotNull('part_name')->groupByRaw('1, 2')->pluck('text', 'id');
 
         return (new EloquentDataTable($query))
             ->addIndexColumn()
@@ -107,6 +107,9 @@ class GanttDataTable extends DataTable
             ->addColumn('parts', function () use ($parts) {
                 return json_encode($parts);
             })
+            ->addColumn('set_part_data', function () use ($parts) {
+                return trim(request('part_name') ?? "");
+            })
             ->rawColumns(['svg_code', 'parts']);
     }
 
@@ -150,12 +153,14 @@ class GanttDataTable extends DataTable
                 let api = this.api();
 
                 let total_line_items = (data && data[0] && data[0].total_line_items) ? data[0].total_line_items : 0;
+                let set_part_data = (data && data[0] && data[0].set_part_data) ? data[0].set_part_data : 0;
                 let quantity_total = (data && data[0] && data[0].quantity_total) ? data[0].quantity_total : 0;
                 let parts = (data && data[0] && data[0].parts) ? JSON.parse(data[0].parts) : [];
 
                 $("#total_line_items").text(total_line_items);
                 $("#total_quantity").text(quantity_total);
                 addSelectData($("#part_name"), parts);
+                $("#part_name").val(set_part_data).trigger("change");
             }')
             ->columns($this->getColumns());
     }

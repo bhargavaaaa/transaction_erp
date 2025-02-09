@@ -33,10 +33,10 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $customers = Order::select('customer')->whereNotNull('customer')->groupBy('customer')->pluck('customer');
-        $parts = Order::select('part_name')->whereNotNull('part_name')->groupBy('part_name')->pluck('part_name');
-        $metals = Order::select('metal')->whereNotNull('metal')->groupBy('metal')->pluck('metal');
-        $sizes = Order::select('size')->whereNotNull('size')->groupBy('size')->pluck('size');
+        $customers = Order::selectRaw('TRIM(customer) as customer')->whereNotNull('customer')->groupBy('customer')->pluck('customer');
+        $parts = Order::selectRaw('TRIM(part_name) as part_name')->whereNotNull('part_name')->groupBy('part_name')->pluck('part_name');
+        $metals = Order::selectRaw('TRIM(metal) as metal')->whereNotNull('metal')->groupBy('metal')->pluck('metal');
+        $sizes = Order::selectRaw('TRIM(size) as size')->whereNotNull('size')->groupBy('size')->pluck('size');
 
         return response()->view('order.create', compact('customers', 'parts', 'metals', 'sizes'));
     }
@@ -60,10 +60,10 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $order = Order::findOrFail($id);
-        $customers = Order::select('customer')->whereNotNull('customer')->groupBy('customer')->pluck('customer');
-        $parts = Order::select('part_name')->whereNotNull('part_name')->groupBy('part_name')->pluck('part_name');
-        $metals = Order::select('metal')->whereNotNull('metal')->groupBy('metal')->pluck('metal');
-        $sizes = Order::select('size')->whereNotNull('size')->groupBy('size')->pluck('size');
+        $customers = Order::selectRaw('TRIM(customer) as customer')->whereNotNull('customer')->groupBy('customer')->pluck('customer');
+        $parts = Order::selectRaw('TRIM(part_name) as part_name')->whereNotNull('part_name')->groupBy('part_name')->pluck('part_name');
+        $metals = Order::selectRaw('TRIM(metal) as metal')->whereNotNull('metal')->groupBy('metal')->pluck('metal');
+        $sizes = Order::selectRaw('TRIM(size) as size')->whereNotNull('size')->groupBy('size')->pluck('size');
 
         return response()->view('order.edit', compact('order', 'customers', 'parts', 'metals', 'sizes'));
     }
@@ -152,17 +152,41 @@ class OrderController extends Controller
                 $order = new Order();
 
                 $order->work_order_number = $i['work_order_number'] ?? NULL;
+                $order->work_order_number = trim($order->work_order_number);
+
                 $order->customer = $i['customer'] ?? NULL;
+                $order->customer = trim($order->customer);
+
                 $order->part_name = $i['part_name'] ?? NULL;
+                $order->part_name = trim($order->part_name);
+
                 $order->metal = $i['metal'] ?? NULL;
+                $order->metal = trim($order->metal);
+
                 $order->size = $i['size'] ?? NULL;
+                $order->size = trim($order->size);
+
                 $order->quantity = $i['quantity'] ?? NULL;
+                $order->quantity = trim($order->quantity);
+
                 $order->weight_per_pcs = $i['weight_per_pcs'] ?? NULL;
+                $order->weight_per_pcs = trim($order->weight_per_pcs);
+
                 $order->required_weight = $i['required_weight'] ?? NULL;
+                $order->required_weight = trim($order->required_weight);
+
                 $order->po_no = $i['po_no'] ?? NULL;
+                $order->po_no = trim($order->po_no);
+
                 $order->po_date = $i['po_date'] ?? NULL;
+                $order->po_date = trim($order->po_date);
+
                 $order->delivery_date = $i['delivery_date'] ?? NULL;
+                $order->delivery_date = trim($order->delivery_date);
+
                 $order->remark = $i['remark'] ?? NULL;
+                $order->remark = trim($order->remark);
+
                 $order->created_by = getCurrentUserId();
                 $order->updated_by = getCurrentUserId();
 
