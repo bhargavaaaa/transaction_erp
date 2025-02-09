@@ -78,7 +78,9 @@
                     success: function (response) {
                         if (response.status === true) {
                             $('#result_div').html(response.html);
-                            $(".js-flatpickr").flatpickr();
+                            $(".js-flatpickr").flatpickr({
+                                disableMobile: true
+                            });
                         } else {
                             Codebase.helpers('jq-notify', {
                                 z_index: 99999,
