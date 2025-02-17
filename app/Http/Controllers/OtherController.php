@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ItemsImport;
 use App\Models\Order;
 use App\Traits\OtherAuthorizable;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class OtherController extends Controller
@@ -95,5 +99,80 @@ class OtherController extends Controller
         $order->save();
 
         return response()->json(["status" => true, "message" => "Other has been deleted."]);
+    }
+
+    public function import_store(Request $request)
+    {
+        ini_set('memory_limit', -1);
+        ini_set('max_execution_time', 0);
+
+        $rules = [
+            'file' => 'required|mimes:xls,xlsx',
+        ];
+        $this->validate($request, $rules);
+        DB::beginTransaction();
+        try {
+            $transactions = (new ItemsImport())->toArray($request->file('file'))[0];
+            $rules = [
+                'transactions' => 'required|array|min:1|max:1000',
+                'transactions.*' => 'required|array',
+            ];
+
+            $messages = [
+                'transactions.min' => 'Minimum 1 transaction is required in the import file.',
+                'transactions.max' => 'A maximum of 1000 transactions are allowed in the import file.',
+                'transactions.*.required' => 'Each transaction must be a valid array.',
+            ];
+
+            $validator = Validator::make(['transactions' => $transactions], $rules, $messages);
+
+            if ($validator->fails()) {
+                $messages = $validator->messages();
+                $errorMessage = implode(', ', $messages->all());
+                return response()->json(["status" => false, "message" => $errorMessage]);
+            }
+
+            $rules = [
+                '*.work_order_number' => ['required', Rule::exists('orders', 'work_order_number')->where('status', 0)],
+                '*.date' => ['required', 'date'],
+                '*.recorded_quantity' => ['required'],
+                '*.rejected_quantity' => ['required'],
+                '*.remark' => ['nullable', 'string', 'max:255']
+            ];
+
+            $validator = Validator::make($transactions, $rules);
+            if ($validator->fails()) {
+                $messages = $validator->messages();
+                $errorMessage = implode(', ', $messages->all());
+                return response()->json(["status" => false, "message" => $errorMessage]);
+            }
+
+            foreach ($transactions as $i) {
+                $order = Order::where('work_order_number', trim($i['work_order_number']))->first();
+
+                $order->other_end_date = $i['date'] ?? NULL;
+                $order->other_end_date = trim($order->other_end_date);
+
+                $order->other_recorded_quantity = $i['recorded_quantity'] ?? NULL;
+                $order->other_recorded_quantity = trim($order->other_recorded_quantity);
+
+                $order->other_rejected_quantity = $i['rejected_quantity'] ?? NULL;
+                $order->other_rejected_quantity = trim($order->other_rejected_quantity);
+
+                $order->other_net_quantity = $order->other_recorded_quantity - $order->other_rejected_quantity;
+
+                $order->other_remark = $i['remark'] ?? NULL;
+                $order->other_remark = trim($order->other_remark);
+
+                $order->updated_by = getCurrentUserId();
+
+                $order->save();
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(["status" => false, "message" => "Something went wrong, ".$e->getMessage()]);
+        }
+        DB::commit();
+        return response()->json(["status" => true, "message" => count($transactions)." transactions have been imported."]);
     }
 }

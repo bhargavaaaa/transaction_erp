@@ -21,6 +21,9 @@
                             Turning
                         </h3>
                     </div>
+                    <div class="col text-end">
+                        {!! getCreateButton("javascript:;", "Import", "import mb-1", "data-bs-toggle='modal' data-bs-target='#import_model'", "turning-modify") !!}
+                    </div>
                 </div>
             </div>
             <div class="block-content block-content-full">
@@ -45,6 +48,7 @@
             </div>
         </div>
     </div>
+    @include('layouts.includes.import_modal')
 @endsection
 
 @section('js')
@@ -220,6 +224,65 @@
                         }
                     }
                 });
+            });
+
+            $(document).on('submit', '#import_form', function (e) {
+                e.preventDefault();
+                if (!isLoading) {
+                    isLoading = true;
+
+                    let formData = new FormData(this);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: `{{ route('turning.import.store') }}`,
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response.status === true) {
+                                $(".import_close").trigger('click');
+
+                                Codebase.helpers('jq-notify', {
+                                    z_index: 99999,
+                                    align: 'right',
+                                    from: 'top',
+                                    type: 'success',
+                                    icon: 'fa fa-check me-1',
+                                    message: response.message
+                                });
+
+                                if($("#work_order_number").val()) {
+                                    setTimeout(() => {
+                                        $("#transaction_form").trigger('submit');
+                                    }, 300);
+                                }
+                            } else {
+                                Codebase.helpers('jq-notify', {
+                                    z_index: 99999,
+                                    align: 'right',
+                                    from: 'top',
+                                    type: 'danger',
+                                    icon: 'fa fa-times me-1',
+                                    message: response.message
+                                });
+                            }
+                            isLoading = false;
+                        },
+                        error: function (xhr, status, error) {
+                            Codebase.helpers('jq-notify', {
+                                z_index: 99999,
+                                align: 'right',
+                                from: 'top',
+                                type: 'danger',
+                                icon: 'fa fa-times me-1',
+                                message: xhr.responseText
+                            });
+                            isLoading = false;
+                        }
+                    });
+                }
             });
         });
     </script>

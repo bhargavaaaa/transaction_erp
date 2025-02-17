@@ -60,22 +60,27 @@ Route::middleware('auth')->group(function () {
 
     /* Cutting routes */
     Route::resource('cutting', CuttingController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::post('cutting/import', [CuttingController::class, 'import_store'])->name('cutting.import.store');
     /* Cutting routes */
 
     /* Turning routes */
     Route::resource('turning', TurningController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::post('turning/import', [TurningController::class, 'import_store'])->name('turning.import.store');
     /* Turning routes */
 
     /* Milling routes */
     Route::resource('milling', MillingController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::post('milling/import', [MillingController::class, 'import_store'])->name('milling.import.store');
     /* Milling routes */
 
     /* Other routes */
     Route::resource('other', OtherController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::post('other/import', [OtherController::class, 'import_store'])->name('other.import.store');
     /* Other routes */
 
     /* Dispatch routes */
     Route::resource('dispatch', DispatchController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::post('dispatch/import', [DispatchController::class, 'import_store'])->name('dispatch.import.store');
     /* Dispatch routes */
 
     /* Profile */
