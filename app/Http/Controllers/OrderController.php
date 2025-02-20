@@ -137,7 +137,7 @@ class OrderController extends Controller
                 '*.required_weight' => ['required', 'numeric'],
                 '*.po_no' => ['required'],
                 '*.po_date' => ['required', 'date'],
-                '*.delivery_date' => ['required', 'date'],
+                '*.delivery_date' => ['nullable', 'date'],
                 '*.remark' => ['nullable', 'string', 'max:255']
             ];
 
@@ -179,10 +179,10 @@ class OrderController extends Controller
                 $order->po_no = trim($order->po_no);
 
                 $order->po_date = $i['po_date'] ?? NULL;
-                $order->po_date = trim($order->po_date);
+                $order->po_date = $order->po_date ? trim($order->po_date) : NULL;
 
                 $order->delivery_date = $i['delivery_date'] ?? NULL;
-                $order->delivery_date = trim($order->delivery_date);
+                $order->delivery_date = $order->delivery_date ? trim($order->delivery_date) : NULL;
 
                 $order->remark = $i['remark'] ?? NULL;
                 $order->remark = trim($order->remark);
