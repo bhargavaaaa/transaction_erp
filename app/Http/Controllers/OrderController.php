@@ -128,17 +128,17 @@ class OrderController extends Controller
 
             $rules = [
                 '*.work_order_number' => ['required', new UniqueItemNames($orders), 'unique:orders,work_order_number'],
-                '*.customer' => ['required', 'string', 'max:255'],
-                '*.part_name' => ['required', 'string', 'max:255'],
-                '*.metal' => ['required', 'string', 'max:255'],
-                '*.size' => ['required', 'string', 'max:255'],
+                '*.customer' => ['required'],
+                '*.part_name' => ['required'],
+                '*.metal' => ['required'],
+                '*.size' => ['required'],
                 '*.quantity' => ['required', 'numeric'],
                 '*.weight_per_pcs' => ['required', 'numeric'],
                 '*.required_weight' => ['required', 'numeric'],
                 '*.po_no' => ['required'],
                 '*.po_date' => ['required', 'date'],
                 '*.delivery_date' => ['nullable', 'date'],
-                '*.remark' => ['nullable', 'string', 'max:255']
+                '*.remark' => ['nullable']
             ];
 
             $validator = Validator::make($orders, $rules);
