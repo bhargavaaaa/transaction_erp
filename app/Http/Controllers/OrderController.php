@@ -109,7 +109,7 @@ class OrderController extends Controller
         ini_set('max_execution_time', 0);
 
         $rules = [
-            'order_file' => 'required|mimes:xls,xlsx',
+            'order_file' => 'required|mimes:xls,xlsx,csv',
         ];
         $this->validate($request, $rules);
         DB::beginTransaction();
